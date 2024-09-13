@@ -13,7 +13,7 @@ AirFirmware is a Python script that facilitates easy downloading and verificatio
 ## Demo
 Check out this video to see how the script works:
 
-![Demo Video](https://github.com/user-attachments/assets/6262df8c-17b3-47c2-ac95-30e92ce677f7)
+![Demo Video](https://github.com/user-attachments/assets/406b75e9-5357-4104-9691-794eccb56691)
 
 ## Requirements
 - Python 3.x
