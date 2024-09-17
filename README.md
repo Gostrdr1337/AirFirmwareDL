@@ -1,7 +1,7 @@
-# AirFirmware - Firmware Download Tool for TB V5.2 Earphones
+# AirFirmware - Firmware Download Tool for Earphones
 
 ## Description
-AirFirmware is a Python script that facilitates easy downloading and verification of firmware files for TB V5.2 Earphones. The script automates the download process, calculates SHA-256 checksums, and compares them with expected values.
+AirFirmware is a Python script that facilitates easy downloading and verification of firmware files for Earphones. The script automates the download process, calculates SHA-256 checksums, and compares them with expected values.
 
 ## Features
 - Downloading firmware files for various versions
