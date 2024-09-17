@@ -28,6 +28,14 @@ EARPHONE_MODELS = {
         "url_format": lambda version: f"http://twsfota.198509.xyz/tws_fota_bin/S505/AB1562AE/S505_cc%20ultra_AB1562AE_V310.6.505.{version}_fota/S505_cc%20ultra_AB1562AE_V310.6.505.{version}_{{side}}_FotaPackage.bin"
     },
     "2": {
+        "name": "V4.9 TB",
+        "base_url": "http://twsfota.198509.xyz/tws_fota_bin/S305/AB1562AE/",
+        "versions": {
+            '162': 'Version 162 is available.'
+        },
+        "url_format": lambda version: f"http://twsfota.198509.xyz/tws_fota_bin/S305/AB1562AE/S305_cc%20ultra_AB1562AE_V31.6.305.{version}_fota/S305_cc%20ultra_AB1562AE_V31.6.305.{version}_{{side}}_FotaPackage.bin"
+    },
+    "3": {
         "name": "V1E",
         "base_url": "http://twsfota.198509.xyz/tws_fota_bin/S45/AB1562E/",
         "versions": {
@@ -89,8 +97,8 @@ def compare_checksums(model_name, version, left_sha256, right_sha256, checksums)
     return {
         "left_file_checksum": left_sha256,
         "right_file_checksum": right_sha256,
-        "left_match": left_sha256.lower() == expected.get("left", "").lower(),
-        "right_match": right_sha256.lower() == expected.get("right", "").lower()
+        "left_match": left_sha256.lower() == expected.get("left", "").lower() if expected.get("left") else None,
+        "right_match": right_sha256.lower() == expected.get("right", "").lower() if expected.get("right") else None
     }
 
 def print_comparison_results(results):
@@ -99,9 +107,17 @@ def print_comparison_results(results):
     print(Fore.GREEN + Style.BRIGHT + "=" * 50)
     print(Fore.GREEN + Style.BRIGHT + f"Left file checksum:  {results['left_file_checksum']}")
     print(Fore.GREEN + Style.BRIGHT + f"Right file checksum: {results['right_file_checksum']}")
-    print(Fore.GREEN + Style.BRIGHT + f"Left file match:     {'Match' if results['left_match'] else 'No match' if results['left_match'] is not None else 'Not available'}")
-    print(Fore.GREEN + Style.BRIGHT + f"Right file match:    {'Match' if results['right_match'] else 'No match' if results['right_match'] is not None else 'Not available'}")
+    print(Fore.GREEN + Style.BRIGHT + f"Left file match:     {get_match_result(results['left_match'])}")
+    print(Fore.GREEN + Style.BRIGHT + f"Right file match:    {get_match_result(results['right_match'])}")
     print(Fore.GREEN + Style.BRIGHT + "=" * 50)
+
+def get_match_result(match):
+    if match is True:
+        return 'Match'
+    elif match is False:
+        return 'No match'
+    else:
+        return 'Not available in checksums.json'
 
 def construct_file_path(model, version, file_type):
     """Construct the file path for the given model, version and file type."""
@@ -181,7 +197,10 @@ def main():
             print(Fore.RED + Style.BRIGHT + "\nProcess interrupted by user.")
             return
         except Exception as e:
-            print(Fore.RED + Style.BRIGHT + f"An unexpected error occurred: {e}")
+            print(Fore.RED + Style.BRIGHT + f"An unexpected error occurred: {str(e)}")
+            import traceback
+            print(Fore.RED + Style.BRIGHT + "Error traceback:")
+            print(traceback.format_exc())
             return
 
 if __name__ == "__main__":
